@@ -2,15 +2,18 @@ import os
 
 import allure
 
-from helpers.assertions import (assert_field_value, assert_required_fields,
-                                assert_status_code)
+from helpers.assertions import (
+    assert_field_value,
+    assert_required_fields,
+    assert_status_code,
+)
 
 
 @allure.epic("Авторизация")
 @allure.feature("Проверка авторизации")
 class TestAuth:
-    """Класс для тестов авторизации
-    """
+    """Класс для тестов авторизации"""
+
     @allure.story("Авторизация с валидным токеном")
     @allure.severity(allure.severity_level.CRITICAL)
     def test_get_disk_info_auth(self, disk_api):
@@ -22,7 +25,9 @@ class TestAuth:
 
         assert_required_fields(response_data, ["user"])
         assert_field_value(response_data["user"], "login", os.getenv("LOGIN"))
-        assert_field_value(response_data["user"], "display_name", os.getenv("DISPLAY_NAME"))
+        assert_field_value(
+            response_data["user"], "display_name", os.getenv("DISPLAY_NAME")
+        )
 
     @allure.story("Авторизация без токена")
     @allure.severity(allure.severity_level.NORMAL)

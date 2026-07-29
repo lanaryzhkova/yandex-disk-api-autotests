@@ -10,7 +10,7 @@ class DiskApi(BaseApi):
     def get_disk_info(self, **kwargs):
         """Метод получения информации о диске"""
         try:
-           return self.get_request(DISK_INFO_ENDPOINT, **kwargs)
+            return self.get_request(DISK_INFO_ENDPOINT, **kwargs)
         except HTTPError as e:
             if e.response.status_code == 401:
                 return e.response
