@@ -1,4 +1,5 @@
 import allure
+import pytest
 
 from helpers.assertions import assert_required_fields, assert_status_code
 from helpers.data import MAX_LENGTH_TITLE, TEST_FOLDER_NAME
@@ -11,35 +12,19 @@ class TestAddResource:
 
     @allure.story("Создание папки")
     @allure.severity(allure.severity_level.CRITICAL)
-    def test_add_folder(self, disk_api):
+    @pytest.mark.parametrize("folder_name", [TEST_FOLDER_NAME, "a" * MAX_LENGTH_TITLE], ids=["Обычное название", "Максимальная длина названия"])
+    def test_add_folder(self, disk_api, folder_name):
         """Тест на добавление папки"""
-        response_add = disk_api.add_resource(path=TEST_FOLDER_NAME)
+        response_add = disk_api.add_resource(path=folder_name)
         response_data_add = response_add.json()
 
         assert_status_code(response_add, 201)
         assert_required_fields(response_data_add, ["href", "method"])
 
-        response_get = disk_api.get_resource_info(path=TEST_FOLDER_NAME)
+        response_get = disk_api.get_resource_info(path=folder_name)
         assert_status_code(response_get, 200)
 
-        disk_api.delete_resource_permanently(path=TEST_FOLDER_NAME)
-
-    @allure.story("Создание папки с максимальной длиной названия")
-    @allure.severity(allure.severity_level.NORMAL)
-    def test_add_max_title_folder(self, disk_api):
-        """Тест на добавление папки с максимальной длиной названия"""
-        path = "a" * MAX_LENGTH_TITLE
-
-        response_add = disk_api.add_resource(path=path)
-        response_data_add = response_add.json()
-
-        assert_status_code(response_add, 201, 204)
-        assert_required_fields(response_data_add, ["href", "method"])
-
-        response_get = disk_api.get_resource_info(path=path)
-        assert_status_code(response_get, 200)
-
-        disk_api.delete_resource_permanently(path=path)
+        disk_api.delete_resource_permanently(path=folder_name)
 
     @allure.story("Создание уже существующей папки")
     @allure.severity(allure.severity_level.NORMAL)
