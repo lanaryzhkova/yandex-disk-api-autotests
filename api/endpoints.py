@@ -1,0 +1,1 @@
+DISK_INFO_ENDPOINT = "/v1/disk"
