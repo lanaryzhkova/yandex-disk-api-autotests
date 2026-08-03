@@ -1,1 +1,4 @@
 DISK_INFO_ENDPOINT = "/v1/disk"
+RESOURCES_ENDPOINT = "/v1/disk/resources"
+TRASH_ENDPOINT = "/v1/disk/trash/resources"
+RECOVER_ENDPOINT = "/v1/disk/trash/resources/restore"
