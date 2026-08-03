@@ -23,6 +23,7 @@ def assert_field_value(response_data: dict, field: str, expected_value):
         f"Ожидалось значение '{expected_value}' для поля '{field}', получено '{response_data.get(field)}'"
     )
 
+
 def assert_resource_in_trash(response_data: dict, resource_path: str):
     """Проверка наличия ресурса в корзине"""
     items = response_data.get("_embedded", {}).get("items", [])

@@ -2,7 +2,12 @@ import allure
 from requests import HTTPError
 
 from api.base_api import BaseApi
-from api.endpoints import DISK_INFO_ENDPOINT, RESOURCES_ENDPOINT, TRASH_ENDPOINT, RECOVER_ENDPOINT
+from api.endpoints import (
+    DISK_INFO_ENDPOINT,
+    RESOURCES_ENDPOINT,
+    TRASH_ENDPOINT,
+    RECOVER_ENDPOINT,
+)
 
 
 class DiskApi(BaseApi):
@@ -39,7 +44,7 @@ class DiskApi(BaseApi):
             if e.response.status_code == 404:
                 return e.response
             raise
-        
+
     @allure.step("Удалить ресурс навсегда")
     def delete_resource_permanently(self, path: str, **kwargs):
         """Метод удаления ресурса на диске"""

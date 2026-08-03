@@ -21,9 +21,11 @@ def disk_api(get_base_url):
     """Возвращает клиент для работы с API диска"""
     return DiskApi(get_base_url)
 
+
 @pytest.fixture
 def folder_name():
     return f"{TEST_FOLDER_NAME}_{uuid.uuid4().hex}"
+
 
 @pytest.fixture(scope="function")
 def created_folder(disk_api, folder_name):

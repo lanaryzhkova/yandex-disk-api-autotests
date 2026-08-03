@@ -3,12 +3,12 @@ import allure
 from helpers.assertions import assert_required_fields, assert_status_code
 from helpers.data import MAX_LENGTH_TITLE, TEST_FOLDER_NAME
 
+
 @allure.epic("Добавление ресурсов")
 @allure.feature("Проверка добавления ресурсов")
-
-
 class TestAddResource:
     """Тесты на добавление ресурсов"""
+
     @allure.story("Создание папки")
     @allure.severity(allure.severity_level.CRITICAL)
     def test_add_folder(self, disk_api):
@@ -28,7 +28,7 @@ class TestAddResource:
     @allure.severity(allure.severity_level.NORMAL)
     def test_add_max_title_folder(self, disk_api):
         """Тест на добавление папки с максимальной длиной названия"""
-        path="a" * MAX_LENGTH_TITLE
+        path = "a" * MAX_LENGTH_TITLE
 
         response_add = disk_api.add_resource(path=path)
         response_data_add = response_add.json()
@@ -61,7 +61,9 @@ class TestAddResource:
         assert_status_code(response_add_sub, 201)
         assert_required_fields(response_data_add_sub, ["href", "method"])
 
-        response_get_sub = disk_api.get_resource_info(path=f"{created_folder}/sub-folder")
+        response_get_sub = disk_api.get_resource_info(
+            path=f"{created_folder}/sub-folder"
+        )
         assert_status_code(response_get_sub, 200)
 
     @allure.story("Создание подпапки без существующей родительской папки")
@@ -83,4 +85,3 @@ class TestAddResource:
 
         assert_status_code(response, 400)
         assert_required_fields(response_data, ["error", "message", "description"])
-        
