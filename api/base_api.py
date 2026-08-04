@@ -11,7 +11,10 @@ class BaseApi:
 
     def _send_request(self, method, endpoint, auth=True, **kwargs) -> requests.Response:
         """Универсальный метод отправки запроса"""
-        url = f"{self.base_url}{endpoint}"
+        if endpoint.startswith("http"):
+            url = endpoint
+        else:
+            url = f"{self.base_url}{endpoint}"
         headers = {"Content-Type": "application/json"}
 
         try:
@@ -37,3 +40,7 @@ class BaseApi:
     def delete_request(self, endpoint: str, **kwargs) -> requests.Response:
         """Метод отправки DELETE-запроса"""
         return self._send_request("DELETE", endpoint, **kwargs)
+
+    def post_request(self, endpoint: str, **kwargs) -> requests.Response:
+        """Метод отправки POST-запроса"""
+        return self._send_request("POST", endpoint, **kwargs)

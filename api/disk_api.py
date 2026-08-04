@@ -3,10 +3,12 @@ from requests import HTTPError
 
 from api.base_api import BaseApi
 from api.endpoints import (
+    COPY_ENDPOINT,
     DISK_INFO_ENDPOINT,
     RESOURCES_ENDPOINT,
     TRASH_ENDPOINT,
     RECOVER_ENDPOINT,
+    UPLOAD_ENDPOINT,
 )
 
 
@@ -88,3 +90,43 @@ class DiskApi(BaseApi):
         """Метод удаления ресурса из корзины"""
         params = {"path": path}
         return self.delete_request(TRASH_ENDPOINT, params=params, **kwargs)
+
+    @allure.step("Загрузить файл на диск")
+    def upload_file(self, local_file_path: str, disk_path: str, **kwargs):
+        """Метод загрузки файла на диск"""
+
+        try:
+            response = self.get_link_to_upload_file(disk_path)
+            href = response.json()["href"]
+
+            with open(local_file_path, "rb") as file:
+                return self.put_request(
+                    href,
+                    data=file,
+                    **kwargs
+                )
+
+        except HTTPError as e:
+            if e.response.status_code in (409, 400):
+                return e.response
+            raise
+
+    def get_link_to_upload_file(self, path: str, **kwargs):
+        """Метод получения ссылки для загрузки файла на диск"""
+        try:
+            params = {"path": path, "fields": "href"}
+            return self.get_request(UPLOAD_ENDPOINT, params=params, **kwargs)
+        except HTTPError as e:
+            if e.response.status_code in (409, 400):
+                return e.response
+            raise
+
+    def copy_resource(self, from_path: str, to_path: str, **kwargs):
+        """Метод копирования ресурса на диске"""
+        try:
+            params = {"from": from_path, "path": to_path}
+            return self.post_request(COPY_ENDPOINT, params=params, **kwargs)
+        except HTTPError as e:
+            if e.response.status_code in (409, 400):
+                return e.response
+            raise
