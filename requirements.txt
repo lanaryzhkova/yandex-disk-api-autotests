@@ -1,2 +1,5 @@
 pytest
 requests
+pydantic
+pytest-xdist
+allure-pytest

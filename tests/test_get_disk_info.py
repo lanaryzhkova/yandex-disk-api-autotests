@@ -2,11 +2,8 @@ import os
 
 import allure
 
-from helpers.assertions import (
-    assert_field_value,
-    assert_required_fields,
-    assert_status_code,
-)
+from helpers.assertions import (assert_field_value, assert_required_fields,
+                                assert_status_code)
 
 
 @allure.epic("Авторизация")

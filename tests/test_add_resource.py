@@ -12,7 +12,11 @@ class TestAddResource:
 
     @allure.story("Создание папки")
     @allure.severity(allure.severity_level.CRITICAL)
-    @pytest.mark.parametrize("folder_name", [TEST_FOLDER_NAME, "a" * MAX_LENGTH_TITLE], ids=["Обычное название", "Максимальная длина названия"])
+    @pytest.mark.parametrize(
+        "folder_name",
+        [TEST_FOLDER_NAME, "a" * MAX_LENGTH_TITLE],
+        ids=["Обычное название", "Максимальная длина названия"],
+    )
     def test_add_folder(self, disk_api, folder_name):
         """Тест на добавление папки"""
         response_add = disk_api.add_resource(path=folder_name)
