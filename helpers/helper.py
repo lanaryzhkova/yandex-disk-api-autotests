@@ -10,11 +10,11 @@ def get_path_from_trash(response_data: dict, resource_title: str) -> str:
     return next(item["path"] for item in items if resource_title in item["path"])
 
 
-def generate_txt_file():
+def generate_txt_file(text: str):
     """Генерация текстового файла"""
     file_path = Path("data.txt")
     with open(file_path, "w") as f:
-        f.write("username=SDET password=secret_key")
+        f.write(text)
     return file_path
 
 
