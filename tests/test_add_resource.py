@@ -3,6 +3,8 @@ import pytest
 
 from helpers.assertions import assert_required_fields, assert_status_code
 from helpers.data import MAX_LENGTH_TITLE, TEST_FOLDER_NAME
+from helpers.helper import validate_response
+from models import ErrorResponse, OperationResponse
 
 
 @allure.epic("Добавление ресурсов")
@@ -20,10 +22,9 @@ class TestAddResource:
     def test_add_folder(self, disk_api, folder_name):
         """Тест на добавление папки"""
         response_add = disk_api.add_resource(path=folder_name)
-        response_data_add = response_add.json()
 
         assert_status_code(response_add, 201)
-        assert_required_fields(response_data_add, ["href", "method"])
+        validate_response(OperationResponse, response_add)
 
         response_get = disk_api.get_resource_info(path=folder_name)
         assert_status_code(response_get, 200)
@@ -35,20 +36,18 @@ class TestAddResource:
     def test_add_existing_folder(self, disk_api, created_folder):
         """Тест на добавление уже существующей папки"""
         response = disk_api.add_resource(path=created_folder)
-        response_data = response.json()
 
         assert_status_code(response, 409)
-        assert_required_fields(response_data, ["error", "message", "description"])
+        validate_response(ErrorResponse, response)
 
     @allure.story("Создание подпапки")
     @allure.severity(allure.severity_level.NORMAL)
     def test_add_sub_folder(self, disk_api, created_folder):
         """Тест на добавление подпапки"""
         response_add_sub = disk_api.add_resource(path=f"{created_folder}/sub-folder")
-        response_data_add_sub = response_add_sub.json()
 
         assert_status_code(response_add_sub, 201)
-        assert_required_fields(response_data_add_sub, ["href", "method"])
+        validate_response(OperationResponse, response_add_sub)
 
         response_get_sub = disk_api.get_resource_info(
             path=f"{created_folder}/sub-folder"
@@ -60,17 +59,16 @@ class TestAddResource:
     def test_add_sub_folder_without_parent(self, disk_api):
         """Тест на добавление подпапки без существующей родительской папки"""
         response = disk_api.add_resource(path="nonexist-parent/sub-folder")
-        response_data = response.json()
 
         assert_status_code(response, 409)
-        assert_required_fields(response_data, ["error", "message", "description"])
+        validate_response(ErrorResponse, response)
 
     @allure.story("Создание папки без названия")
     @allure.severity(allure.severity_level.NORMAL)
     def test_add_folder_without_title(self, disk_api):
         """Тест на добавление папки без названия"""
         response = disk_api.add_resource(path="")
-        response_data = response.json()
 
         assert_status_code(response, 400)
-        assert_required_fields(response_data, ["error", "message", "description"])
+        validate_response(ErrorResponse, response)
+

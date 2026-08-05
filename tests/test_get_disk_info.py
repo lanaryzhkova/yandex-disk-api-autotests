@@ -4,6 +4,8 @@ import allure
 
 from helpers.assertions import (assert_field_value, assert_required_fields,
                                 assert_status_code)
+from helpers.helper import validate_response
+from models import ErrorResponse
 
 
 @allure.epic("Авторизация")
@@ -31,7 +33,6 @@ class TestAuth:
     def test_get_disk_info_no_auth(self, disk_api):
         """Проверка авторизации без токена"""
         response = disk_api.get_disk_info(auth=False)
-        response_data = response.json()
 
         assert_status_code(response, 401)
-        assert_required_fields(response_data, ["error", "message", "description"])
+        validate_response(ErrorResponse, response)

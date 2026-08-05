@@ -2,7 +2,8 @@ import allure
 
 from helpers.assertions import (assert_required_fields,
                                 assert_resource_in_trash, assert_status_code)
-from helpers.helper import get_path_from_trash
+from helpers.helper import get_path_from_trash, validate_response
+from models import ErrorResponse
 
 
 @allure.epic("Удаление ресурсов")
@@ -30,6 +31,7 @@ class TestDeleteResource:
 
         response = disk_api.delete_resource_to_trash(folder_path)
         assert_status_code(response, 404)
+        validate_response(ErrorResponse, response)
 
     @allure.story("Удаление ресурса навсегда")
     @allure.severity(allure.severity_level.CRITICAL)
@@ -42,6 +44,7 @@ class TestDeleteResource:
 
         response_get = disk_api.get_resource_info(created_folder)
         assert_status_code(response_get, 404)
+        validate_response(ErrorResponse, response_get)
 
     @allure.story("Удаление ресурса из корзины")
     @allure.severity(allure.severity_level.CRITICAL)
