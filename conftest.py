@@ -1,9 +1,11 @@
 import os
+import uuid
 
 import pytest
 from dotenv import load_dotenv
 
 from api.disk_api import DiskApi
+from helpers.data import TEST_FOLDER_NAME
 
 load_dotenv()
 
@@ -18,3 +20,16 @@ def get_base_url():
 def disk_api(get_base_url):
     """Возвращает клиент для работы с API диска"""
     return DiskApi(get_base_url)
+
+
+@pytest.fixture
+def folder_name():
+    return f"{TEST_FOLDER_NAME}_{uuid.uuid4().hex}"
+
+
+@pytest.fixture(scope="function")
+def created_folder(disk_api, folder_name):
+    folder = folder_name
+    disk_api.add_resource(folder)
+    yield folder
+    disk_api.delete_resource_permanently(folder)

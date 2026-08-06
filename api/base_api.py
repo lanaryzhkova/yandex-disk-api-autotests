@@ -29,3 +29,11 @@ class BaseApi:
     def get_request(self, endpoint: str, **kwargs) -> requests.Response:
         """Метод отправки GET-запроса"""
         return self._send_request("GET", endpoint, **kwargs)
+
+    def put_request(self, endpoint: str, **kwargs) -> requests.Response:
+        """Метод отправки PUT-запроса"""
+        return self._send_request("PUT", endpoint, **kwargs)
+
+    def delete_request(self, endpoint: str, **kwargs) -> requests.Response:
+        """Метод отправки DELETE-запроса"""
+        return self._send_request("DELETE", endpoint, **kwargs)
