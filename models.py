@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class OperationResponse(BaseModel):
     """Класс для модели ответа на операцию"""
+
     method: str
     href: str
     templated: bool
@@ -11,6 +12,7 @@ class OperationResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     """Класс для модели ответа на ошибку"""
+
     error: str
     description: str
     message: str
@@ -19,6 +21,7 @@ class ErrorResponse(BaseModel):
 
 class QueryModel(BaseModel):
     """Класс для модели запроса"""
+
     model_config = ConfigDict(populate_by_name=True)
 
     path: str

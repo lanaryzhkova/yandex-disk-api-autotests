@@ -2,10 +2,16 @@ import allure
 from requests import HTTPError
 
 from api.base_api import BaseApi
-from api.endpoints import (COPY_ENDPOINT, DISK_INFO_ENDPOINT,
-                           DOWNLOAD_ENDPOINT, FILES_LIST_ENDPOINT,
-                           RECOVER_ENDPOINT, RESOURCES_ENDPOINT,
-                           TRASH_ENDPOINT, UPLOAD_ENDPOINT)
+from api.endpoints import (
+    COPY_ENDPOINT,
+    DISK_INFO_ENDPOINT,
+    DOWNLOAD_ENDPOINT,
+    FILES_LIST_ENDPOINT,
+    RECOVER_ENDPOINT,
+    RESOURCES_ENDPOINT,
+    TRASH_ENDPOINT,
+    UPLOAD_ENDPOINT,
+)
 from models import QueryModel
 
 

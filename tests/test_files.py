@@ -2,8 +2,7 @@ import allure
 
 from helpers.assertions import assert_status_code
 from helpers.data import FILES_LIST_SCHEMA, TXT_FILE_CONTENT
-from helpers.helper import (generate_txt_file, validate_json_schema,
-                            validate_response)
+from helpers.helper import generate_txt_file, validate_json_schema, validate_response
 from models import ErrorResponse, OperationResponse
 
 

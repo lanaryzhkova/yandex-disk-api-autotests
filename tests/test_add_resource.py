@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from helpers.assertions import assert_required_fields, assert_status_code
+from helpers.assertions import assert_status_code
 from helpers.data import MAX_LENGTH_TITLE, TEST_FOLDER_NAME
 from helpers.helper import validate_response
 from models import ErrorResponse, OperationResponse
@@ -71,4 +71,3 @@ class TestAddResource:
 
         assert_status_code(response, 400)
         validate_response(ErrorResponse, response)
-
