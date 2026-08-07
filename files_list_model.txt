@@ -1,0 +1,57 @@
+FilesResourceList {
+limit (integer, optional): <Количество элементов на странице>,
+offset (integer, optional): <Смещение от начала списка>,
+items (Array[Resource]): <Элементы списка>
+}
+Resource {
+path (string): <Путь к ресурсу>,
+type (string): <Тип>,
+name (string): <Имя>,
+created (string): <Дата создания>,
+modified (string): <Дата изменения>,
+size (integer, optional): <Размер файла>,
+mime_type (string, optional): <MIME-тип файла>,
+md5 (string, optional): <MD5-хэш>,
+sha256 (string, optional): <SHA256-хэш>,
+preview (string, optional): <URL превью файла>,
+public_key (string, optional): <Ключ опубликованного ресурса>,
+public_url (string, optional): <Публичный URL>,
+_embedded (ResourceList, optional),
+media_type (string, optional): <Определённый Диском тип файла>,
+file (string, optional): <URL для скачивания файла>,
+resource_id (string, optional): <Идентификатор ресурса>,
+share (ShareInfo, optional),
+revision (integer, optional): <Ревизия Диска в которой этот ресурс был изменён последний раз>,
+comment_ids (CommentIds, optional),
+custom_properties (object, optional): <Пользовательские атрибуты ресурса>,
+exif (Exif, optional),
+antivirus_status (object, optional): <Статус проверки антивирусом>,
+photoslice_time (string, optional): <Дата создания фото или видео файла>,
+sizes (Array[Preview], optional): <Все размеры превью с URL для скачивания>
+}
+ResourceList {
+total (integer, optional): <Общее количество элементов в списке>,
+limit (integer, optional): <Количество элементов на странице>,
+offset (integer, optional): <Смещение от начала списка>,
+path (string): <Путь к ресурсу, для которого построен список>,
+sort (string, optional): <Поле, по которому отсортирован список>,
+items (Array[Resource]): <Элементы списка>
+}
+ShareInfo {
+is_owned (boolean, optional): <Признак, что текущий пользователь является владельцем общей папки>,
+is_root (boolean, optional): <Признак того, что папка является корневой в группе>,
+rights (string): <Права доступа>
+}
+CommentIds {
+public_resource (string, optional): <Идентификатор комментариев для публичных ресурсов.>,
+private_resource (string, optional): <Идентификатор комментариев для приватных ресурсов.>
+}
+Exif {
+date_time (string, optional): <Дата съёмки.>,
+gps_latitude (object, optional): <Координата съемки (широта).>,
+gps_longitude (object, optional): <Координата съемки (долгота).>
+}
+Preview {
+url (string, optional): <Ссылка на скачивание превью>,
+name (string, optional): <Название (размер) превью>
+}

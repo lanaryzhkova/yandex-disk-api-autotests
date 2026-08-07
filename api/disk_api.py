@@ -2,8 +2,16 @@ import allure
 from requests import HTTPError
 
 from api.base_api import BaseApi
-from api.endpoints import (COPY_ENDPOINT, DISK_INFO_ENDPOINT, DOWNLOAD_ENDPOINT, RECOVER_ENDPOINT,
-                           RESOURCES_ENDPOINT, TRASH_ENDPOINT, UPLOAD_ENDPOINT)
+from api.endpoints import (
+    COPY_ENDPOINT,
+    DISK_INFO_ENDPOINT,
+    DOWNLOAD_ENDPOINT,
+    FILES_LIST_ENDPOINT,
+    RECOVER_ENDPOINT,
+    RESOURCES_ENDPOINT,
+    TRASH_ENDPOINT,
+    UPLOAD_ENDPOINT,
+)
 from models import QueryModel
 
 
@@ -140,9 +148,21 @@ class DiskApi(BaseApi):
         """Метод скачивания файла с диска"""
         try:
             response = self.get_download_link(path)
+            assert response.status_code == 200
+            assert "href" in response.json()
             href = response.json()["href"]
 
             return self.get_request(href, **kwargs)
+        except HTTPError as e:
+            if e.response.status_code in (409, 400):
+                return e.response
+            raise
+
+    @allure.step("Получить список файлов в папке")
+    def get_files_list(self, **kwargs):
+        """Метод получения списка файлов в папке"""
+        try:
+            return self.get_request(FILES_LIST_ENDPOINT, **kwargs)
         except HTTPError as e:
             if e.response.status_code in (409, 400):
                 return e.response

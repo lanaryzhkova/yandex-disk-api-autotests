@@ -1,8 +1,8 @@
 import allure
 
 from helpers.assertions import assert_status_code
-from helpers.data import TXT_FILE_CONTENT
-from helpers.helper import generate_txt_file, validate_response
+from helpers.data import FILES_LIST_SCHEMA, TXT_FILE_CONTENT
+from helpers.helper import generate_txt_file, validate_json_schema, validate_response
 from models import ErrorResponse, OperationResponse
 
 
@@ -10,6 +10,7 @@ from models import ErrorResponse, OperationResponse
 @allure.feature("Проверка загрузки и копирования файла")
 class TestFiles:
     """Тесты для проверки загрузки и копирования файла"""
+
     @allure.story("Проверка загрузки и копирования файла")
     @allure.severity(allure.severity_level.NORMAL)
     def test_upload_copy_file(self, disk_api):
@@ -57,5 +58,12 @@ class TestFiles:
             f"Ожидалось содержимое '{file_content}', получено '{response_download.content}'"
         )
 
-        disk_api.delete_resource_permanently(path="sdet_data")
+        disk_api.delete_resource_permanently(path=disk_path)
 
+    @allure.story("Проверка получения списка файлов")
+    @allure.severity(allure.severity_level.NORMAL)
+    def test_get_files_list(self, disk_api):
+        """Тест на получение списка файлов"""
+        response = disk_api.get_files_list()
+        assert_status_code(response, 200)
+        validate_json_schema(response.json(), FILES_LIST_SCHEMA)
