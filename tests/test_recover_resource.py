@@ -1,10 +1,7 @@
 import allure
 
-from helpers.assertions import (
-    assert_required_fields,
-    assert_resource_in_trash,
-    assert_status_code,
-)
+from helpers.assertions import (assert_required_fields,
+                                assert_resource_in_trash, assert_status_code)
 from helpers.helper import get_path_from_trash
 
 
